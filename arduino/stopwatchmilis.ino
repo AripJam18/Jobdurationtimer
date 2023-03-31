@@ -61,15 +61,13 @@ void tick() { // centang dilakukan setiap 100 milidetik, yaitu setiap sepersepul
     } else {
       milisecond++;
     }
-  } 
-  
-  if (mulai==0 && berhenti==1) {
+  } else  if (mulai==0 && berhenti==1) {
   minute=00;
   second=00;
   milisecond=00;
+  delay(2000); //butuh delay untuk kirim data ke server (sebelum reset nilai variable)
   mulai=0;
   berhenti=0;
-  delay(2000); //butuh delay untuk kirim data ke server (sebelum reset nilai variable)
   updateLCD();
   }
 }
