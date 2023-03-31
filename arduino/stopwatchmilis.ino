@@ -8,7 +8,6 @@ LiquidCrystal_I2C lcd(I2C_ADDR, LCD_COLUMNS, LCD_LINES);
 
 unsigned long timer = 0; //timer
 
-//PREMENNE PRE PRVY CAS - LAVY UTOK
 int second = 0;
 int minute = 0;
 int tenth = 0;
@@ -34,8 +33,7 @@ void tickClock() {
   }
 }
 
-void tick() { //tick sa vykonava kazdych 100 miliseund, teda kazdu desatinu sekundy
-  //LOGIKA BEZIACEHO CASU PRVEHO UTOKU (UTOK LAVY)
+void tick() { // centang dilakukan setiap 100 milidetik, yaitu setiap sepersepuluh detik
   if (run) {
     updateLCD();
     if (tenth == 9) {
@@ -53,7 +51,6 @@ void tick() { //tick sa vykonava kazdych 100 miliseund, teda kazdu desatinu seku
 }
 
 
-//VYPIS PRVEHO UTOKU NA DISPLEJ (UTOK LAVY)
 void updateLCD() {
   lcd.setCursor(0, 0);
   if (minute < 10) {
