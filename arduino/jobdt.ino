@@ -202,13 +202,7 @@ void Stopwatch(){
     getMs =Ms; 
     
     DataDuration =getM+":"+getS+":"+getMs;
-
-    if (M > 15){
-      DataRemarks = "Late";
-    } else{
-      DataRemarks = "Good";   
-    }
-    
+        
 }
 void Jam(){
   DateTime now = rtc.now();
@@ -230,14 +224,10 @@ void SendtoDB(){
     // Make a HTTP request:
     Serial.print("GET /JOBDURATION/control.php?dataDuration=");
     Serial.print(DataDuration);
-    Serial.print("&dataRemarks=");
-    Serial.println(DataRemarks);
     Serial.println("");
     
     client.print("GET /JOBDURATION/control.php?dataDuration=");     //YOUR URL
     client.print(DataDuration);
-    client.print("&dataRemarks=");
-    client.print(DataRemarks);
     client.print(" ");      //SPACE BEFORE HTTP/1.1
     client.print("HTTP/1.1");
     client.println();
