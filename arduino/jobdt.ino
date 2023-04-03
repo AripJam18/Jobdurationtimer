@@ -14,7 +14,7 @@ String DataRemarks;
 unsigned long byteCount = 0;
 bool printWebData = true;  // set to false for better speed measurement
 char server[] = "192.168.1.10";
-IPAddress ip(192,168,1,177); //arduino IP
+IPAddress ip(192,168,1,20); //arduino IP
 EthernetClient client; 
 
 const int Start =6;
@@ -231,7 +231,7 @@ void SendtoDB(){
     client.print(" ");      //SPACE BEFORE HTTP/1.1
     client.print("HTTP/1.1");
     client.println();
-    client.println("Host: 192.168.1.177");
+    client.println("Host: 192.168.1.20");
     client.println("Connection: close");
     client.println();
   } else {
