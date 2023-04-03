@@ -31,24 +31,23 @@ SET time_zone = "+00:00";
 CREATE TABLE `jobdurationtimer` (
   `id` int(11) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `duration` varchar(8) NOT NULL,
-  `remarks` varchar(4) NOT NULL
+  `duration` varchar(8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `jobdurationtimer`
 --
 
-INSERT INTO `jobdurationtimer` (`id`, `timestamp`, `duration`, `remarks`) VALUES
-(402, '2023-03-29 07:07:03', '00:01:16', 'Good'),
-(403, '2023-03-29 07:16:29', '00:02:44', 'Good'),
-(404, '2023-03-29 07:25:57', '00:09:05', 'Good'),
-(405, '2023-03-29 07:47:10', '00:20:33', 'Late'),
-(406, '2023-03-29 07:48:18', '00:00:16', 'Good'),
-(407, '2023-03-29 07:48:19', '00:00:16', 'Good'),
-(408, '2023-03-29 08:06:21', '00:07:35', 'Good'),
-(409, '2023-03-29 08:18:36', '00:11:49', 'Good'),
-(410, '2023-03-29 08:39:27', '00:18:36', 'Late');
+INSERT INTO `jobdurationtimer` (`id`, `timestamp`, `duration`) VALUES
+(402, '2023-03-29 07:07:03', '00:01:16'),
+(403, '2023-03-29 07:16:29', '00:02:44'),
+(404, '2023-03-29 07:25:57', '00:09:05'),
+(405, '2023-03-29 07:47:10', '00:20:33'),
+(406, '2023-03-29 07:48:18', '00:00:16'),
+(407, '2023-03-29 07:48:19', '00:00:16'),
+(408, '2023-03-29 08:06:21', '00:07:35'),
+(409, '2023-03-29 08:18:36', '00:11:49'),
+(410, '2023-03-29 08:39:27', '00:18:36');
 
 --
 -- Indexes for dumped tables
