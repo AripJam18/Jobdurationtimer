@@ -1,9 +1,9 @@
 <?php
 class jdt{
  public $link='';
- function __construct($duration, $remarks){
+ function __construct($duration){
   $this->connect();
-  $this->storeInDB($duration, $remarks);
+  $this->storeInDB($duration);
  }
  
  function connect(){
@@ -12,14 +12,14 @@ class jdt{
  }
  
  function storeInDB($duration, $remarks){
-  $query = "insert into jobdurationtimer set duration='".$duration."', remarks='".$remarks."'";
+  $query = "insert into jobdurationtimer set duration='".$duration."'";
   $result = mysqli_query($this->link,$query) or die('Errant query:  '.$query);
   if($result === TRUE){echo "Data Tersimpan";}else{echo "Gagal Menyimpan data";}
  }
  
 }
-if($_GET['dataDuration'] != '' and  $_GET['dataRemarks'] != ''){
- $jdt=new jdt($_GET['dataDuration'],$_GET['dataRemarks']);
+if($_GET['dataDuration'] != ''){
+ $jdt=new jdt($_GET['dataDuration']);
 }
 
 ?>
