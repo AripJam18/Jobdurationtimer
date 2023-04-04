@@ -1,0 +1,23 @@
+Beberapa masalah yang ditemui saat pembuatan JobDurationTimer :
+//masalah panel led matrix running text
+1. Arduino Mega tidak support panel p5 rgb outdoor dengan 1/8 scan mode
+ini terjadi karena Arduino Mega menggunakan library RGBMatrixPanel dari adafruit yang hanya support scan mode 1/16 saja.
+Arduino tidak bisa menggunakan library Smartmatrix atau pixelmatrix yg support 1/16 scan mode.
+2. Setelah menggunakan panel p5 rgb Indoor 1/16 scan masalah lain muncul yaitu, RGBMatrixPanel belum mendukung percabangan / multiple panels,
+Arduino jadi hanya bisa mengontrol 1 buah panel P5 saja. Meskipun ada 3 buah panel yg dihubungkan secara pararel.
+3. jadi untuk menampilkan waktu/jam aktual dan timer, ini hanya bisa ditampilkan pada 1 panel yg berada ditengah dengan ukuran huruf 8 pixel.
+2 panel disebalh kiri dan kanan sementara tidak digunakan.
+
+//masalah relay dan power supply.
+1. Arduino membutuhkan tegangan 5-12 vdc, sementara LED Matrix panel p5 membutuhkan 5vdc dan 5 ampere arus untuk setiap lembar panelnya.
+lampu emergency yang digunakan ada 3 buah dengan tegangan input 24vdc , begitupun 3 buah relay schneider membutuhkan tengangan 24vdc untuk bekerja
+sedangkan power supply yang digunakan adalah 24vdc/4ampere. Tegangan yang terlalu tinggi dapat mengakibatkan panel led running text rusak.
+dan jika tegangan rendah maka relay tidak bisa bekerja.
+solusi yang diterapkan adalah membagi 2 output dari power supply menjadi 5vdc menggunakan modul stepdown untuk menghidupkan arduino dan LED running text
+dan 24vdc untuk menghidupkan relay dan lampu.
+2. Arduino tidak bisa langsung mengendalikan relay schneider 24vdc karena output arduino hanya 5vdc, maka dari itu perlu ditambah 1 relay 5vdc sebagai relay kontrol
+yang akan mengontrol relay schneider 24vdc yg berfungsi sebagi relay beban. 
+Arduino menghidupan relay 5vdc dengan pin VCC dan GND nya, sementara relay 5vdc menghidupkan relay schneider 24vdc menggunakan tengangan 24vdc dari powersupply.
+
+
+
