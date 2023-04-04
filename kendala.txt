@@ -26,3 +26,7 @@ https://forums.adafruit.com/viewtopic.php?t=22521&start=75
 
 or this
 https://forums.adafruit.com/viewtopic.php?t=22521&start=105
+
+
+or this smartmatrix esp32
+https://community.pixelmatix.com/t/new-smartmatrix-gfx-based-shirt/405/7
