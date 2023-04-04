@@ -20,4 +20,6 @@ yang akan mengontrol relay schneider 24vdc yg berfungsi sebagi relay beban.
 Arduino menghidupan relay 5vdc dengan pin VCC dan GND nya, sementara relay 5vdc menghidupkan relay schneider 24vdc menggunakan tengangan 24vdc dari powersupply.
 
 
-//masalah
+//some worksaroud
+arduino mega 16x32 pakai 2 panels
+https://forums.adafruit.com/viewtopic.php?t=22521&start=75
