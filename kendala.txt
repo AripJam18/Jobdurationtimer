@@ -23,3 +23,6 @@ Arduino menghidupan relay 5vdc dengan pin VCC dan GND nya, sementara relay 5vdc 
 //some worksaroud
 arduino mega 16x32 pakai 2 panels
 https://forums.adafruit.com/viewtopic.php?t=22521&start=75
+
+or this
+https://forums.adafruit.com/viewtopic.php?t=22521&start=105
