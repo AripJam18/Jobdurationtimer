@@ -33,3 +33,6 @@ https://community.pixelmatix.com/t/new-smartmatrix-gfx-based-shirt/405/7
 
 or this pxmatrix
 https://github.com/2dom/PxMatrix/issues/200
+
+or this raspberry pi
+https://github.com/hzeller/rpi-rgb-led-matrix
