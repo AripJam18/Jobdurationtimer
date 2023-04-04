@@ -36,3 +36,4 @@ https://github.com/2dom/PxMatrix/issues/200
 
 or this raspberry pi
 https://github.com/hzeller/rpi-rgb-led-matrix
+https://github.com/hzeller/rpi-rgb-led-matrix/issues/746
