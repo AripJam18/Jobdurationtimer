@@ -77,3 +77,7 @@ https://github.com/2dom/PxMatrix/issues/200
 or this raspberry pi
 https://github.com/hzeller/rpi-rgb-led-matrix
 https://github.com/hzeller/rpi-rgb-led-matrix/issues/746
+
+
+or try this for ESP32 DMA (multichained panel)
+https://github.com/peteroden/ESP32Matrix
