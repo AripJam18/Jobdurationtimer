@@ -81,3 +81,7 @@ https://github.com/hzeller/rpi-rgb-led-matrix/issues/746
 
 or try this for ESP32 DMA (multichained panel)
 https://github.com/peteroden/ESP32Matrix
+
+
+this is smartmatrix libabry for multiple chained panel esp32
+https://github.com/pixelmatix/SmartMatrix
