@@ -1,6 +1,7 @@
 
 // on 3 pcs P5 Panels 64x32 LED matrix
-
+#include <WiFi.h>
+#include <HTTPClient.h>
 #include <ESP32-HUB75-MatrixPanel-I2S-DMA.h>
 #include "RTClib.h"
 #define PANEL_RES_X 64      // Number of pixels wide of each INDIVIDUAL panel module. 
@@ -35,8 +36,11 @@ RTC_DS3231 rtc;
 //SCL ke Pin P22
 //SDA ke Pin P21
 
-
-String DataDuration;
+const char WIFI_SSID[] = "FMS - Sinergi";
+const char WIFI_PASSWORD[] = "adminsst";
+String HOST_NAME = "http://17.17.17.12"; // change to your PC's IP address
+String PATH_NAME   = "/JOBDURATION/control.php";
+String queryString , DataDuration;
 int Ms = 00; // count hours
 int S = 00; // count seconds 
 int M = 00; // count minutes
@@ -46,11 +50,12 @@ String getMs;
 String jam,menit,detik;
 int mulai=0;
 int berhenti=0;
-const int Start =0;
-const int Stop =2;
-const int hijau =33; //relay1
+const int Start =2;
+const int Stop =35;
+const int hijau =0; //relay1
 const int kuning =32; //relay2
-const int merah =35; //relay3
+const int merah =33; //relay3
+
 void setup() {
 
   // Module configuration
@@ -66,6 +71,20 @@ void setup() {
 
   // Display Setup
   Serial.begin(9600);
+//awal stting WIFI
+
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  Serial.println("Connecting");
+  while(WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("");
+  Serial.print("Connected to WiFi network with IP Address: ");
+  Serial.println(WiFi.localIP());
+//akhir stting WIFI
+
+//awal setting led matrix panel
   dma_display = new MatrixPanel_I2S_DMA(mxconfig);
   dma_display->begin();
   dma_display->setBrightness8(90); //0-255
@@ -75,14 +94,17 @@ void setup() {
   dma_display->setTextWrap(false); // Don't wrap at end of line - will do ourselves
   dma_display->setCursor(51, 1);    // start at top left, with 8 pixel of spacing
   dma_display->setTextColor(dma_display->color444(0,0,7));
-  dma_display->println("24:00:00");
+  dma_display->println("00:00:00");
   dma_display->setTextSize(2);
   dma_display->setCursor(51, 17);    // start at top left, with 8 pixel of spacing
   dma_display->setTextColor(dma_display->color444(7,0,0));
-  dma_display->println("15:00:00");
-  delay(1000);
-  dma_display->clearScreen();
-  dma_display->fillScreen(0);
+  dma_display->println("00:00:00");
+//  delay(1000);
+//  dma_display->clearScreen();
+//  dma_display->fillScreen(0);
+//akhir setting led matrix panel  
+
+//awal setting RTC
     if (! rtc.begin()) {
     Serial.println("Couldn't find RTC");
     Serial.flush();
@@ -92,13 +114,24 @@ void setup() {
   if (rtc.lostPower()) {
     Serial.println("RTC lost power, let's set the time!");
     }    
-  //rtc.adjust(DateTime(2023, 4, 8, 14, 25, 0));
+  //rtc.adjust(DateTime(2023, 4, 9, 17, 21, 30)); //ini diaktifkan jika waktu RTC (tahun,bulan,tgl,jam,menit,detik) tidak sesuai jam aktual
+//akhir setting RTC
+
+//awal setup button dan relay
+  pinMode(Start, INPUT_PULLUP);
+  pinMode(Stop, INPUT_PULLUP);
+  pinMode(merah, OUTPUT); 
+  pinMode(kuning, OUTPUT); 
+  pinMode(hijau, OUTPUT); 
+  digitalWrite(hijau,LOW);
+  digitalWrite(kuning,LOW);
+  digitalWrite(merah,LOW);
+//akhir setup button dan relay
 }
 
 
 void loop() {
-   Clock();
-  if ((digitalRead(Start) == LOW) && (digitalRead(Stop)) == LOW) {
+ if ((digitalRead(Start) == LOW) && (digitalRead(Stop)) == LOW) {
     Serial.println("mulai1");
     mulai=1;
     berhenti=0;
@@ -109,31 +142,16 @@ void loop() {
     berhenti=1;
     Serial.println("mulai0");
   }
-//cek apakah tombol sudah ditekan ?
-if ((mulai == 1) && (berhenti == 0)) {
-  Stopwatch();
-  }
-else if ((mulai == 0) && (berhenti == 1)) {
-  //SendtoDB();
-  delay(1000);
-  Ms=00; 
-  M=00; 
-  S=00;
-  berhenti=0;
-  mulai=0;
-  digitalWrite(hijau,LOW);
-  digitalWrite(kuning,LOW);
-  digitalWrite(merah,LOW);
- }
+  Clock();
 }
 
 
 
 void Stopwatch(){
   //------------------------------CHANGE TIME---------------------------------
-    digitalWrite(hijau,HIGH);
+    //digitalWrite(hijau,HIGH);
     Ms++;
-    delay(40);
+    delay(45);
    dma_display->fillScreen(0);
    dma_display->setTextSize(2);
    dma_display->setCursor(51, 17);    // start at top left, with 8 pixel of spacing
@@ -158,7 +176,7 @@ void Stopwatch(){
     //----------------------------DISPLAY TIME----------------------------- 
 
     //dma_display->setCursor(8,12); 
-       if (M <9 && M>=0){ 
+       if (M <=9 ){ 
       digitalWrite(hijau,HIGH);
       digitalWrite(kuning,LOW);
       digitalWrite(merah,LOW); 
@@ -169,7 +187,7 @@ void Stopwatch(){
       digitalWrite(merah,LOW); 
       //LAMPU HIJAU      
     } 
-     else if (M <59 && M>=16){
+     else if (M <59 && M>=15){
       digitalWrite(hijau,LOW);
       digitalWrite(kuning,LOW);
       digitalWrite(merah,HIGH);
@@ -226,14 +244,64 @@ void Clock(){
   dma_display->setTextWrap(false); // Don't wrap at end of line - will do ourselves
   dma_display->setCursor(51, 1);    // start at top left, with 8 pixel of spacing
   dma_display->setTextColor(dma_display->color444(0,0,7));
-  dma_display->print(jam);
+  if (jam.toInt() < 10){
+    dma_display->print("0");
+    dma_display->print(jam);
+  } 
+  else {
+   dma_display->print(jam); 
+  }
   dma_display->print(":"); 
-  dma_display->print(menit);
+  if (menit.toInt() < 10){
+    dma_display->print("0");
+    dma_display->print(menit);
+  } 
+  else {
+   dma_display->print(menit); 
+  }
   dma_display->print(":");
-  dma_display->print(detik);
+  if (detik.toInt() < 10){
+    dma_display->print("0");
+    dma_display->print(detik);
+  } 
+  else {
+   dma_display->print(detik); 
+  }
+  //cek apakah tombol sudah ditekan ?
+if ((mulai == 1) && (berhenti == 0)) {
+  Stopwatch();
+  }
+else if ((mulai == 0) && (berhenti == 1)) {
+  SendtoDB();
+  delay(1000);
+  Ms=00; 
+  M=00; 
+  S=00;
+  berhenti=0;
+  mulai=0;
+  digitalWrite(hijau,LOW);
+  digitalWrite(kuning,LOW);
+  digitalWrite(merah,LOW);
+ }
 }
 
-
-
-
-
+void SendtoDB(){
+  HTTPClient http;
+  queryString= "?dataDuration=" + DataDuration;
+  http.begin(HOST_NAME + PATH_NAME + queryString); //HTTP
+  int httpCode = http.GET();
+  // httpCode will be negative on error
+  if(httpCode > 0) {
+    // file found at server
+    if(httpCode == HTTP_CODE_OK) {
+      String payload = http.getString();
+      Serial.println(payload);
+    } else {
+      // HTTP header has been send and Server response header has been handled
+      Serial.printf("[HTTP] GET... code: %d\n", httpCode);
+    }
+  } else {
+    Serial.printf("[HTTP] GET... failed, error: %s\n", http.errorToString(httpCode).c_str());
+  }
+  http.end();
+}
