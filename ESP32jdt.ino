@@ -114,7 +114,7 @@ void setup() {
   if (rtc.lostPower()) {
     Serial.println("RTC lost power, let's set the time!");
     }    
-  //rtc.adjust(DateTime(2023, 4, 9, 17, 21, 30)); //ini diaktifkan jika waktu RTC (tahun,bulan,tgl,jam,menit,detik) tidak sesuai jam aktual
+  //rtc.adjust(DateTime(2023, 4, 9, 19, 17, 20)); //ini diaktifkan jika waktu RTC (tahun,bulan,tgl,jam,menit,detik) tidak sesuai jam aktual
 //akhir setting RTC
 
 //awal setup button dan relay
@@ -131,6 +131,7 @@ void setup() {
 
 
 void loop() {
+  Clock();
  if ((digitalRead(Start) == LOW) && (digitalRead(Stop)) == LOW) {
     Serial.println("mulai1");
     mulai=1;
@@ -142,7 +143,22 @@ void loop() {
     berhenti=1;
     Serial.println("mulai0");
   }
-  Clock();
+  //cek apakah tombol sudah ditekan ?
+if ((mulai == 1) && (berhenti == 0)) {
+  Stopwatch();
+  }
+else if ((mulai == 0) && (berhenti == 1)) {
+  SendtoDB();
+  delay(1000);
+  Ms=00; 
+  M=00; 
+  S=00;
+  berhenti=0;
+  mulai=0;
+  digitalWrite(hijau,LOW);
+  digitalWrite(kuning,LOW);
+  digitalWrite(merah,LOW);
+ }
 }
 
 
@@ -267,22 +283,7 @@ void Clock(){
   else {
    dma_display->print(detik); 
   }
-  //cek apakah tombol sudah ditekan ?
-if ((mulai == 1) && (berhenti == 0)) {
-  Stopwatch();
-  }
-else if ((mulai == 0) && (berhenti == 1)) {
-  SendtoDB();
-  delay(1000);
-  Ms=00; 
-  M=00; 
-  S=00;
-  berhenti=0;
-  mulai=0;
-  digitalWrite(hijau,LOW);
-  digitalWrite(kuning,LOW);
-  digitalWrite(merah,LOW);
- }
+ 
 }
 
 void SendtoDB(){
