@@ -1,0 +1,14 @@
+C:\Users\190078\source\repos\JobDurationTimer - ADODB\JobDurationTimer\bin\Debug\JobDurationTimer.exe
+C:\Users\190078\source\repos\JobDurationTimer - ADODB\JobDurationTimer\bin\Debug\JobDurationTimer.pdb
+C:\Users\190078\source\repos\JobDurationTimer - ADODB\JobDurationTimer\bin\Debug\JobDurationTimer.xml
+C:\Users\190078\source\repos\JobDurationTimer - ADODB\JobDurationTimer\bin\Debug\MySql.Data.dll
+C:\Users\190078\source\repos\JobDurationTimer - ADODB\JobDurationTimer\bin\Debug\MySql.Data.xml
+C:\Users\190078\source\repos\JobDurationTimer - ADODB\JobDurationTimer\obj\Debug\JobDurationTimerMySQLClient.vbproj.ResolveComReference.cache
+C:\Users\190078\source\repos\JobDurationTimer - ADODB\JobDurationTimer\obj\Debug\JobDurationTimer.Form1.resources
+C:\Users\190078\source\repos\JobDurationTimer - ADODB\JobDurationTimer\obj\Debug\JobDurationTimer.Resources.resources
+C:\Users\190078\source\repos\JobDurationTimer - ADODB\JobDurationTimer\obj\Debug\JobDurationTimerMySQLClient.vbproj.GenerateResource.cache
+C:\Users\190078\source\repos\JobDurationTimer - ADODB\JobDurationTimer\obj\Debug\JobDurationTimerMySQLClient.vbproj.CoreCompileInputs.cache
+C:\Users\190078\source\repos\JobDurationTimer - ADODB\JobDurationTimer\obj\Debug\JobDurationTimerMySQLClient.vbproj.CopyComplete
+C:\Users\190078\source\repos\JobDurationTimer - ADODB\JobDurationTimer\obj\Debug\JobDurationTimer.exe
+C:\Users\190078\source\repos\JobDurationTimer - ADODB\JobDurationTimer\obj\Debug\JobDurationTimer.xml
+C:\Users\190078\source\repos\JobDurationTimer - ADODB\JobDurationTimer\obj\Debug\JobDurationTimer.pdb
