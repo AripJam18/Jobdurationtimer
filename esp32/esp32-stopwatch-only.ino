@@ -36,10 +36,10 @@ RTC_DS3231 rtc;
 //SCL ke Pin P22
 //SDA ke Pin P21
 
-const char WIFI_SSID[] = "FMS - Sinergi";
-const char WIFI_PASSWORD[] = "adminsst";
-String HOST_NAME = "http://17.17.17.12"; // change to your PC's IP address
-String PATH_NAME   = "/JOBDURATION/control.php";
+const char WIFI_SSID[] = "FMS - Sinergi"; //ganti ssid sesuai dengan ssid wifi yg tersedia
+const char WIFI_PASSWORD[] = "adminsst"; //gsnti password sesuai password wifi yg tersedia
+String HOST_NAME = "http://17.17.17.23"; // ganti IP address sesuai ip address PC yg akan menerima data
+String PATH_NAME   = "/JOBDURATION/control.php"; // ini lokasi file php untuk kirim datanya ada  di C:\xampp\htdocs\JOBDURATION\control.php
 String queryString , DataDuration;
 int Ms = 00; // count hours
 int S = 00; // count seconds 
@@ -94,7 +94,7 @@ void setup() {
   dma_display->fillScreen(0);
   dma_display->setTextSize(3);
   dma_display->setCursor(25, 5);    // start at top left, with 8 pixel of spacing
-  dma_display->setTextColor(dma_display->color444(7,0,0));
+  dma_display->setTextColor(dma_display->color444(0,7,0));
   dma_display->println("00:00:00");
 //  delay(1000);
 //  dma_display->clearScreen();
@@ -168,7 +168,7 @@ void Stopwatch(){
    dma_display->fillScreen(0);
    dma_display->setTextSize(3);
    dma_display->setCursor(25, 5);   // start at top left, with 8 pixel of spacing
-   dma_display->setTextColor(dma_display->color444(7,0,0));
+   dma_display->setTextColor(dma_display->color444(0,7,0));
   //Jam;//to refresh
     if (Ms>20) //if miliseconds are up,
     {
