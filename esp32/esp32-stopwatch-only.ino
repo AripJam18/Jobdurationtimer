@@ -3,14 +3,12 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include <ESP32-HUB75-MatrixPanel-I2S-DMA.h>
-#include "RTClib.h"
 #define PANEL_RES_X 64      // Number of pixels wide of each INDIVIDUAL panel module. 
 #define PANEL_RES_Y 32     // Number of pixels tall of each INDIVIDUAL panel module.
 #define PANEL_CHAIN 3      // Total number of panels chained one to another
  
 //MatrixPanel_I2S_DMA dma_display;
 MatrixPanel_I2S_DMA *dma_display = nullptr;
-RTC_DS3231 rtc;
 
 
 // Settingan ESP32 ke Panel P5 (HUB 75)
@@ -31,10 +29,6 @@ RTC_DS3231 rtc;
 // ada 3 Pin Ground , Minimal 2 pin HARUS terhubung ke ground kalau tidak LED jadi berbayang
 //yaitu GND diantara pin G1 dan G2 (terhubungke GND ESP32 diantara p19 dan P21) satu lagi GND yg ada di sebrang OE ini terhubung ke GND esp32 diantara p12 dan p13.
 
-
-//settingan RTC
-//SCL ke Pin P22
-//SDA ke Pin P21
 
 const char WIFI_SSID[] = "FMS - Sinergi"; //ganti ssid sesuai dengan ssid wifi yg tersedia
 const char WIFI_PASSWORD[] = "adminsst"; //gsnti password sesuai password wifi yg tersedia
@@ -101,19 +95,6 @@ void setup() {
 //  dma_display->fillScreen(0);
 //akhir setting led matrix panel  
 
-//awal setting RTC
-    if (! rtc.begin()) {
-    Serial.println("Couldn't find RTC");
-    Serial.flush();
-    abort();
-  }
-
-  if (rtc.lostPower()) {
-    Serial.println("RTC lost power, let's set the time!");
-    }    
-  //rtc.adjust(DateTime(2023, 4, 9, 19, 17, 20)); //ini diaktifkan jika waktu RTC (tahun,bulan,tgl,jam,menit,detik) tidak sesuai jam aktual
-//akhir setting RTC
-
 //awal setup button dan relay
   pinMode(Start, INPUT_PULLUP);
   pinMode(Stop, INPUT_PULLUP);
@@ -128,7 +109,7 @@ void setup() {
 
 
 void loop() {
-  //Clock();
+  
  if ((digitalRead(Start) == LOW) && (digitalRead(Stop)) == LOW) {
     Serial.println("mulai1");
     mulai=1;
@@ -243,44 +224,6 @@ void Stopwatch(){
     
     DataDuration =getM+":"+getS+":"+getMs;
     
-}
-
-
-
-void Clock(){
-  DateTime now = rtc.now();
-  jam = now.hour();
-  menit =now.minute();
-  detik = now.second();
-  //dma_display->fillScreen(0);
-  dma_display->setTextSize(2);     // size 1 == 8 pixels high
-  dma_display->setTextWrap(false); // Don't wrap at end of line - will do ourselves
-  dma_display->setCursor(51, 1);    // start at top left, with 8 pixel of spacing
-  dma_display->setTextColor(dma_display->color444(0,0,7));
-  if (jam.toInt() < 10){
-    dma_display->print("0");
-    dma_display->print(jam);
-  } 
-  else {
-   dma_display->print(jam); 
-  }
-  dma_display->print(":"); 
-  if (menit.toInt() < 10){
-    dma_display->print("0");
-    dma_display->print(menit);
-  } 
-  else {
-   dma_display->print(menit); 
-  }
-  dma_display->print(":");
-  if (detik.toInt() < 10){
-    dma_display->print("0");
-    dma_display->print(detik);
-  } 
-  else {
-   dma_display->print(detik); 
-  }
- 
 }
 
 void SendtoDB(){
