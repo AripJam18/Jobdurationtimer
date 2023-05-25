@@ -6,7 +6,7 @@ Arduino tidak bisa menggunakan library Smartmatrix atau pixelmatrix yg support 1
 2. Setelah menggunakan panel p5 rgb Indoor 1/16 scan masalah lain muncul yaitu, RGBMatrixPanel belum mendukung percabangan / multiple panels,
 Arduino jadi hanya bisa mengontrol 1 buah panel P5 saja. Meskipun ada 3 buah panel yg dihubungkan secara pararel.
 3. jadi untuk menampilkan waktu/jam aktual dan timer, ini hanya bisa ditampilkan pada 1 panel yg berada ditengah dengan ukuran huruf 8 pixel.
-2 panel disebalh kiri dan kanan sementara tidak digunakan.
+2 panel disebelah kiri dan kanan sementara tidak digunakan.
 
 //masalah relay dan power supply.
 1. Arduino membutuhkan tegangan 5-12 vdc, sementara LED Matrix panel p5 membutuhkan 5vdc dan 5 ampere arus untuk setiap lembar panelnya.
@@ -85,3 +85,18 @@ https://github.com/peteroden/ESP32Matrix
 
 this is smartmatrix libabry for multiple chained panel esp32
 https://github.com/pixelmatix/SmartMatrix
+
+######
+MASALAH Multiple/chaining panel selesai dengan mengganti arduino mega dengan ESP32-WROOM-32D.
+ESP32 menggunakan library  : ESP32-HUB75-MatrixPanel-DMA (library ini mendukung multichain panel)
+kemudian masalah lain muncul ketika ESP32 bisa mengaktifkan 3 panel sekaligus tapi ESP32 tidak mendukung multiplerows dalam 1 panel.
+jadi dalam 1 panel tidak bisa ada 2 baris tampilan yg memilki waktu refresh berbeda.
+1 panel akan direfresh secara keseluruhan dalam 1 waktu.
+jadi misalkan baris atas adalah jam dan baris bawah adalah stopwatch :
+12:00:01
+00:00:01
+ketika  jam menit detik terus berjalan sementara stopwatch tidak dijalankan. maka angka pada bagian detik akan menumpuk 01 02 03 04 05 06 menumpuk
+tapi ketika stopwatch dijalankan makan angka pada bagian detik akan ikut refresh sesuai millis() ata delay stopwatch.
+
+##### MASALAH Installas
+ESP32 tidak bisa diprogram dengan windows 7 karena esptool.py tidak support windows 7
