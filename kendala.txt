@@ -98,5 +98,142 @@ jadi misalkan baris atas adalah jam dan baris bawah adalah stopwatch :
 ketika  jam menit detik terus berjalan sementara stopwatch tidak dijalankan. maka angka pada bagian detik akan menumpuk 01 02 03 04 05 06 menumpuk
 tapi ketika stopwatch dijalankan makan angka pada bagian detik akan ikut refresh sesuai millis() ata delay stopwatch.
 
-##### MASALAH Installas
+##### MASALAH Installasi
 ESP32 tidak bisa diprogram dengan windows 7 karena esptool.py tidak support windows 7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##### MASALAH PENGIRIMAN DATA (tanggal 22 Mei 2023)
+==> Ketika tombol stop ditekan ESP32 mencoba mengirimkan data ke XAMPP/localhost dengan HTTPClient.begin();
+namaun data tidak terkirim dan HTTPCode yg didapat adalah -1 atau Connection Refused
+dengan detail error di serial seperti berikut : [HTTP] GET ... failed error connection refused
+
+diagnosis awal adalah ESP32 tidak dapat koneksi internet dari SSID
+ternyata bukan , detail penyelsaian masalah sebagai berikut :
+
+=============================
+Hasil percobaan dg beberapa case hari ini tgl 23 mei 2023 :
+
+1. coba koneksi esp32 ke wifi pakai wifi.h tanpa HTTPClient.h (berhasil)
+2. coba POST data ke ip lokal (httpcode -1 atau connection refused)
+3. coba GET data ke ip lokal (HTTP GET failed ... connection refused)
+4. coba koneksi ke example.org (httpcode -1 atau connection refused)
+5. coba pakai esp32 dev module (board versi 2.0.0) juga sama (httpcode -1 atau connection refused)
+
+dari semua yg sudah dicoba dengan sketch-sketch yang worked di saya dan di wokwi atau website dan youtube.
+dan dari semua pencarian di forum diskusi tentang ESP32 (HTTP GET failed ... connection refused)
+semuanya kembali ke masalah jaringan.
+
+seperti pada thread berikut :
+https://github.com/espressif/arduino-esp32/issues/3804
+
+kalau thread yg berikut beda sama kita karena kita tidak pakai <WiFiClient.h> dan wifi.config :
+https://stackoverflow.com/questions/63227102/connection-refused-esp32
+
+
+kalau thread yg ini karena dia salah kasih ip address :
+https://www.arduinoforum.de/arduino-Thread-HttpClient-Fehler
+
+
+kasus kita ESP32 terhubung ke SSID dan mendapatkan IP Address , IP Address server juga sudah benar lokasi file.php juga sudah benar
+tapi ESP32 tidak bisa terhubung ke server baik lokal IP 192.168.195.121 ataupun ke server di internet google.com/example.org
+
+selain itu ketika sy coba eksekusi file control.php secara langsung di address bar google chrome data berhasil disimpan.
+"http://192.168.195.121/JOBDURATION/control.php?duration=10"
+data masuk dg angka duration = 10 di tabel jobdurationtimer.
+data juga bisa dipanggil dan diexport ke ms. excell.
+
+alat jobdurationtimer sebelum dikirim sudah dites di beberapa PC dan laptop dengan konek HP ataupun access point kantor dan worked bisa sampai export data.
+adapun spesifikasi arduino ide yg saya gunakan adalah :
+Arduino IDE 1.8.19
+Board Manager ESP32 versi 2.0.7 pakai ESP32-WROOM-DA Module
+untuk library HTTPClient.h versi 2.0.0
+untuk library WiFi.h versi 1.2.7
+untuk library Runningtext tidak ada masalah sama seperti yg dipakai.
+
+untuk kemungkinan solusi :
+1. upload ulang program percobaan kirim data yg tadi saya coba berkali kali, menggunakan board esp32 versi 2.0.7 yg tadi baru selesai sy install
+tapi nanti salah satu library httpclient.h dan salah satu  library wifi.h nya dihapus dari folder arduino/libarries sisakan masing masing satu.karena tadi saya lihat outputnya error double library.
+2. jika hasilnya masih (HTTP GET failed ... connection refused), mungkin bisa coba konek ke jaringan lain lagi selain SSID ESP32 dan Bravo.
+3. jika masih gagal mungkin bisa dicoba di komputer lain.
+
+
+atau agar kita bisa pastikan apakah jaringannya bermasalah atau tidak.
+1. bapak bisa coba buat program pengiriman data pakai esp32 atau esp8266 yg bapak punya disana
+atau program yg tadi kita coba untuk mengakses example.org tapi usahakan koneksinya pakai Bravo.
+2. nanti kalau pakai Bravo hasilnya (HTTP GET failed ... connection refused) bapak coba pakai SSID lain
+jadi kita coba cario jaringan yg bisa allow esp32 untuk kirim data ke luar.
+
+karena dari sisi program dan hardware itu jalan semua pak, 
+di compile dan di upload tidak ada masalah meskipun berbeda versi arduino ide dan library.
+asal bisa di complie berarti tidak ada masalah.
+
+masalah terjadi ketika esp32 mau kirim data ke server
+(HTTP GET failed ... connection refused).
+
+jadi lebih baik besok percobaannya pakai esp32 atau esp8266 yang lain agar esp32 yg untuk running text tidak rusak karena upload complie upload compile.
+
+atau kalau sebelumnya bapak pernah buat program esp32/esp8266 yg terhubung ke internet tapi pakai ssid lain coba di ganti SSIDnya ke Bravo atau ESP32.
+=============================
+
+=============================
+trial setelah istirahat tgl 24 mei 2023:
+1. ganti 192.168.195.121 dengan localhost (gagal) 
+2. ganti library HTTPClient.h downgrade (tidak bisa)
+3. pakai esp32 ping 192.168.195.121 (gagal) tapi ping domain dan ip google berhasil (216.239.38.120).
+4. coba pakai firebase (belum)
+5. coba pakai restapi (belum)
+
+setelah Firewall dinonaktifkan ESP32 bisa melakukan ping ke 192.168.195.121
+tapi HTTP Masih Connection Refused.
+
+
+untuk besok mungkin bisa coba skenario berikut :
+1. upload program tetap di PC yg ipnya 192.168.195.121 
+tapi untuk IP Servernya diarahkan ke IP komputer lain yg 1 segment dengan jaringan SSID Bravo
+dan di komputer tersebut telah terinstall XAMPP dan ada database arduino serta file control.php
+nanti kita coba kirim data ke XAMPP di komputer lain pak.
+
+2. kalau yg pertama belum berhasil mungkin harus install arduino IDE 1.8.19 di komputer lain lengkap dengan XAMPP dan yg lainnya.
+
+masalah SSID ternyata bisa dipakai buat buka HTTP dengan ESP8266
+SSID juga bisa dipakai untuk ping IP Address public(google) dan lokal oleh ESP32
+tapi ESP32 belum bisa kirim data melalui HTTP karena koneksi HTTP ke 192.168.195.121 di tolak.
+tadi udh buka firewall tapi masih belum bisa.
+==============================
+
+==============================
+Percobaan tgl 25 Mei 2023
+1. menambahkan DSN pada wifi.config() == Tidak berhasil
+2. test autehtikasi HTTP ke https://httpbin.org/basic-auth/username/password menggunakan library #include <HTTPClient.h>
+dan #include <WiFiMulti.h>
+hasilnya berhasil statusCode > 0 "Able to send HTTP request out of the board." dan "Server responded with HTTP status 200."
+3. setelah berhasil dengan cara test authentikasi kemudian kembali ke sketch awal jobduration timer yg hanaya menggunakan library <HTTPClient.h> dan <WiFi.h> tanpa library <WiFiMulti.h>
+
+perubahan yg dilkaukan adalah:
+ alamat HOST_NAME dirubah dari "http://192.168.195.121" menjadi "https://192.168.195.121" selain itu perlu ada tambahan perintah : http.setAuthorization("username", "password"); setelah perintah http.begin(HOST_NAME + PATH_NAME + queryString);
+
+setelah itu dijalankan dan data duration bisa tersimpan di XAMPP.
+Done tanpa merubah wiring tanpa merubah library bawaan hanya menonaktifkan firewall dan menambahkan http.setAuthorization().
+
+tanpa merubah IP Server atau pindah ke komputer lain dan downgrade Arduino IDE.
+=============================
+
+detail dan screenshoot error ada di folder errorPIC
+
