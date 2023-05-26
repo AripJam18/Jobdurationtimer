@@ -18,8 +18,8 @@ class jdt{
  }
  
 }
-if($_GET['dataDuration'] != ''){
- $jdt=new jdt($_GET['dataDuration']);
+if($_GET['duration'] != ''){
+ $jdt=new jdt($_GET['duration']);
 }
 
 ?>
